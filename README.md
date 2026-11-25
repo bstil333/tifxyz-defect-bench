@@ -15,3 +15,5 @@ A labeled benchmark for tifxyz segment quality checkers. It plants defects with 
 **Tests.** `python -m unittest discover -s tests -v`. Python 3, NumPy and tifffile only.
 
 **License.** MIT, Benjamin L. Stilwell.
+
+**Data and citation.** The segments used here are public Vesuvius Challenge data, listed with URLs in `data_real/SOURCES.json` and `data_multiwrap/SOURCES.json`; no data is redistributed in this repository. Data from Scrolls 1 to 4 (including PHerc. Paris 4 and PHerc. 1667) come from the EduceLab-Scrolls dataset: Parsons, S., Parker, C. S., Chapman, C., Hayashida, M., & Seales, W. B. (2023). EduceLab-Scrolls: Verifiable Recovery of Text from Herculaneum Papyri using X-ray CT. ArXiv [Cs.CV]. https://doi.org/10.48550/arXiv.2304.02084. Data used in the preparation of this work were obtained from the EduceLab-Scrolls dataset (above citation).
