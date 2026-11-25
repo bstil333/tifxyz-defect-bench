@@ -1,0 +1,266 @@
+[
+ {
+  "seg": "PHerc0139__20250831000000-w040_2025083102",
+  "grid": [
+   320,
+   399
+  ],
+  "valid": 110046,
+  "doctor": 1.66,
+  "repair": 6.42,
+  "repair_winding": 6.42,
+  "windcheck": 0.07
+ },
+ {
+  "seg": "PHerc0139__20260206000000-w042_2026020613",
+  "grid": [
+   299,
+   394
+  ],
+  "valid": 103651,
+  "doctor": 0.77,
+  "repair": 0.0,
+  "repair_winding": 0.0,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHerc0172__20250926150345-w086_20250926150345176_flatboi",
+  "grid": [
+   623,
+   485
+  ],
+  "valid": 261658,
+  "doctor": 0.84,
+  "repair": 0.18,
+  "repair_winding": 0.18,
+  "windcheck": 0.11
+ },
+ {
+  "seg": "PHerc0172__20250926153406-w088_20250926153406704_flatboi",
+  "grid": [
+   728,
+   625
+  ],
+  "valid": 286424,
+  "doctor": 1.02,
+  "repair": 4.64,
+  "repair_winding": 4.64,
+  "windcheck": 0.54
+ },
+ {
+  "seg": "PHerc0343P__20250902170441--4_b2",
+  "grid": [
+   165,
+   126
+  ],
+  "valid": 13575,
+  "doctor": 1.62,
+  "repair": 0.0,
+  "repair_winding": 0.0,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHerc0343P__20250905172054-1_b2",
+  "grid": [
+   151,
+   114
+  ],
+  "valid": 11332,
+  "doctor": 1.15,
+  "repair": 0.0,
+  "repair_winding": 0.0,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHerc0500P2__20250611133823-z_dbg_gen_00130_inp_hr",
+  "grid": [
+   1133,
+   380
+  ],
+  "valid": 240820,
+  "doctor": 4.62,
+  "repair": 39.56,
+  "repair_winding": 39.56,
+  "windcheck": 0.02
+ },
+ {
+  "seg": "PHerc0500P2__20250716055232-z_dbg_gen_00505_inp_hr",
+  "grid": [
+   1059,
+   731
+  ],
+  "valid": 429957,
+  "doctor": 4.68,
+  "repair": 33.01,
+  "repair_winding": 33.01,
+  "windcheck": 0.01
+ },
+ {
+  "seg": "PHerc0800__20251028220042-auto_grown_20251028220042762",
+  "grid": [
+   102,
+   100
+  ],
+  "valid": 5574,
+  "doctor": 0.18,
+  "repair": 0.0,
+  "repair_winding": 0.0,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHerc0800__20251029010146-auto_grown_20251029010146642",
+  "grid": [
+   49,
+   49
+  ],
+  "valid": 1337,
+  "doctor": 0.0,
+  "repair": 0.0,
+  "repair_winding": 0.0,
+  "windcheck": "ERR windcheck certificate not found in '/tmp/tmpx_m6rla1'. Tool output tai"
+ },
+ {
+  "seg": "PHerc0814__20250925161630-auto_grown_20250925161630635",
+  "grid": [
+   258,
+   950
+  ],
+  "valid": 90591,
+  "doctor": 56.75,
+  "repair": 23.66,
+  "repair_winding": 23.66,
+  "windcheck": 0.15
+ },
+ {
+  "seg": "PHerc0814__20250928235953-auto_grown_20250928235953722",
+  "grid": [
+   252,
+   2638
+  ],
+  "valid": 252993,
+  "doctor": 59.69,
+  "repair": 41.59,
+  "repair_winding": 26.72,
+  "windcheck": 0.48
+ },
+ {
+  "seg": "PHerc0841__20260220213127-w00",
+  "grid": [
+   211,
+   238
+  ],
+  "valid": 36829,
+  "doctor": 5.84,
+  "repair": 0.05,
+  "repair_winding": 0.05,
+  "windcheck": 0.92
+ },
+ {
+  "seg": "PHerc0841__20260221022814-auto_grown_20260220174252405",
+  "grid": [
+   188,
+   245
+  ],
+  "valid": 34875,
+  "doctor": 6.14,
+  "repair": 0.06,
+  "repair_winding": 0.06,
+  "windcheck": 1.2
+ },
+ {
+  "seg": "PHerc1447__20250502184658-auto_grown_20250502163923577",
+  "grid": [
+   211,
+   143
+  ],
+  "valid": 17840,
+  "doctor": 38.45,
+  "repair": 16.76,
+  "repair_winding": 16.76,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHerc1447__20250502184845-auto_grown_20250502164121265",
+  "grid": [
+   231,
+   110
+  ],
+  "valid": 19802,
+  "doctor": 18.48,
+  "repair": 11.41,
+  "repair_winding": 11.41,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHerc1667__20260123230000-w037_2026012323_flatboi",
+  "grid": [
+   1261,
+   1167
+  ],
+  "valid": 969761,
+  "doctor": 0.25,
+  "repair": 0.1,
+  "repair_winding": 0.1,
+  "windcheck": 0.04
+ },
+ {
+  "seg": "PHerc1667__20260205070000-w041_2026020507_flatboi",
+  "grid": [
+   1259,
+   1121
+  ],
+  "valid": 755562,
+  "doctor": 0.33,
+  "repair": 0.12,
+  "repair_winding": 0.12,
+  "windcheck": 0.24
+ },
+ {
+  "seg": "PHercMANBp__20251218212128-w4_20251218212128406",
+  "grid": [
+   1310,
+   1039
+  ],
+  "valid": 158453,
+  "doctor": 2.27,
+  "repair": 56.29,
+  "repair_winding": 56.29,
+  "windcheck": 2.16
+ },
+ {
+  "seg": "PHercMANBp__20251222204911-w6_20251222204911527",
+  "grid": [
+   360,
+   224
+  ],
+  "valid": 47001,
+  "doctor": 2.38,
+  "repair": 9.47,
+  "repair_winding": 9.47,
+  "windcheck": 0.0
+ },
+ {
+  "seg": "PHercParis4__20260623151729-w073-076",
+  "grid": [
+   130,
+   462
+  ],
+  "valid": 53840,
+  "doctor": 1.99,
+  "repair": 905.22,
+  "repair_winding": 0.04,
+  "windcheck": 18.37
+ },
+ {
+  "seg": "PHercParis4__20260623171400-w126-127",
+  "grid": [
+   167,
+   403
+  ],
+  "valid": 45383,
+  "doctor": 7.38,
+  "repair": 709.14,
+  "repair_winding": 59.12,
+  "windcheck": 7.95
+ }
+]

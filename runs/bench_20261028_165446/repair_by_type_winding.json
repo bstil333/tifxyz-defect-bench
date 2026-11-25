@@ -1,0 +1,88 @@
+{
+ "types": [
+  "hole_boundary",
+  "self_proximity",
+  "stretch"
+ ],
+ "clean_flag_per_1000": {
+  "hole_boundary": 0.0,
+  "self_proximity": 30.18605381870413,
+  "stretch": 0.0785510694167022
+ },
+ "recall": {
+  "hole_boundary": {
+   "hole": 1.0,
+   "sheet_jump": 0.0,
+   "normal_flip": 0.0,
+   "stretch": 0.0
+  },
+  "self_proximity": {
+   "hole": 0.38333333333333336,
+   "sheet_jump": 0.48333333333333334,
+   "normal_flip": 0.37916666666666665,
+   "stretch": 0.6625
+  },
+  "stretch": {
+   "hole": 0.0,
+   "sheet_jump": 0.5083333333333333,
+   "normal_flip": 1.0,
+   "stretch": 0.7708333333333334
+  }
+ },
+ "counts": {
+  "hole_boundary": {
+   "hole": [
+    240,
+    240
+   ],
+   "sheet_jump": [
+    0,
+    240
+   ],
+   "normal_flip": [
+    0,
+    240
+   ],
+   "stretch": [
+    0,
+    240
+   ]
+  },
+  "self_proximity": {
+   "hole": [
+    92,
+    240
+   ],
+   "sheet_jump": [
+    116,
+    240
+   ],
+   "normal_flip": [
+    91,
+    240
+   ],
+   "stretch": [
+    159,
+    240
+   ]
+  },
+  "stretch": {
+   "hole": [
+    0,
+    240
+   ],
+   "sheet_jump": [
+    122,
+    240
+   ],
+   "normal_flip": [
+    240,
+    240
+   ],
+   "stretch": [
+    185,
+    240
+   ]
+  }
+ }
+}
