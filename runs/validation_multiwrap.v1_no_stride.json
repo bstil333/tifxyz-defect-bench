@@ -1,0 +1,314 @@
+[
+ {
+  "seg": "PHercParis4__20260623141135-w046-052_jordi",
+  "grid": [
+   740,
+   2948
+  ],
+  "valid": 1941473,
+  "default_self_prox_per1000": 4.19,
+  "default_pairs": 4155,
+  "winding_self_prox_per1000": 0.22,
+  "winding_pairs": 214,
+  "winding_pairs_ignored": 3941
+ },
+ {
+  "seg": "PHercParis4__20260623141649-w053-058_jordi",
+  "grid": [
+   750,
+   2857
+  ],
+  "valid": 1888203,
+  "default_self_prox_per1000": 3.49,
+  "default_pairs": 3391,
+  "winding_self_prox_per1000": 0.06,
+  "winding_pairs": 54,
+  "winding_pairs_ignored": 3337
+ },
+ {
+  "seg": "PHercParis4__20260623141924-w010-027",
+  "grid": [
+   689,
+   2613
+  ],
+  "valid": 1659181,
+  "default_self_prox_per1000": 0.77,
+  "default_pairs": 647,
+  "winding_self_prox_per1000": 0.77,
+  "winding_pairs": 647,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623142658-w028-037",
+  "grid": [
+   712,
+   2715
+  ],
+  "valid": 1753195,
+  "default_self_prox_per1000": 0.61,
+  "default_pairs": 550,
+  "winding_self_prox_per1000": 0.61,
+  "winding_pairs": 550,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623143441-w038-045",
+  "grid": [
+   729,
+   2847
+  ],
+  "valid": 1786059,
+  "default_self_prox_per1000": 1.47,
+  "default_pairs": 1338,
+  "winding_self_prox_per1000": 1.47,
+  "winding_pairs": 1338,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623144224-w046-052",
+  "grid": [
+   739,
+   2961
+  ],
+  "valid": 1941152,
+  "default_self_prox_per1000": 4.91,
+  "default_pairs": 5141,
+  "winding_self_prox_per1000": 0.39,
+  "winding_pairs": 397,
+  "winding_pairs_ignored": 4744
+ },
+ {
+  "seg": "PHercParis4__20260623145652-w059-063",
+  "grid": [
+   752,
+   2658
+  ],
+  "valid": 1747043,
+  "default_self_prox_per1000": 1.08,
+  "default_pairs": 966,
+  "winding_self_prox_per1000": 1.08,
+  "winding_pairs": 966,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623150417-w064-068",
+  "grid": [
+   756,
+   2940
+  ],
+  "valid": 1939997,
+  "default_self_prox_per1000": 1.41,
+  "default_pairs": 1405,
+  "winding_self_prox_per1000": 1.41,
+  "winding_pairs": 1405,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623151041-w069-072",
+  "grid": [
+   753,
+   2547
+  ],
+  "valid": 1673340,
+  "default_self_prox_per1000": 2.6,
+  "default_pairs": 2217,
+  "winding_self_prox_per1000": 0.01,
+  "winding_pairs": 10,
+  "winding_pairs_ignored": 2207
+ },
+ {
+  "seg": "PHercParis4__20260623151729-w073-076",
+  "grid": [
+   753,
+   2692
+  ],
+  "valid": 1762771,
+  "default_self_prox_per1000": 2.62,
+  "default_pairs": 2337,
+  "winding_self_prox_per1000": 0.05,
+  "winding_pairs": 41,
+  "winding_pairs_ignored": 2296
+ },
+ {
+  "seg": "PHercParis4__20260623152443-w077-080",
+  "grid": [
+   755,
+   2843
+  ],
+  "valid": 1869624,
+  "default_self_prox_per1000": 1.11,
+  "default_pairs": 1053,
+  "winding_self_prox_per1000": 1.11,
+  "winding_pairs": 1053,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623153216-w081-084",
+  "grid": [
+   760,
+   3014
+  ],
+  "valid": 1986152,
+  "default_self_prox_per1000": 1.24,
+  "default_pairs": 1247,
+  "winding_self_prox_per1000": 1.24,
+  "winding_pairs": 1247,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623154006-w085-088",
+  "grid": [
+   763,
+   3176
+  ],
+  "valid": 2081588,
+  "default_self_prox_per1000": 0.74,
+  "default_pairs": 773,
+  "winding_self_prox_per1000": 0.74,
+  "winding_pairs": 773,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623154617-w089-091",
+  "grid": [
+   761,
+   2526
+  ],
+  "valid": 1638303,
+  "default_self_prox_per1000": 0.79,
+  "default_pairs": 658,
+  "winding_self_prox_per1000": 0.79,
+  "winding_pairs": 658,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623155240-w092-094",
+  "grid": [
+   762,
+   2614
+  ],
+  "valid": 1693829,
+  "default_self_prox_per1000": 0.88,
+  "default_pairs": 759,
+  "winding_self_prox_per1000": 0.88,
+  "winding_pairs": 759,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623155914-w095-097",
+  "grid": [
+   761,
+   2694
+  ],
+  "valid": 1737777,
+  "default_self_prox_per1000": 1.04,
+  "default_pairs": 920,
+  "winding_self_prox_per1000": 1.04,
+  "winding_pairs": 920,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623160554-w098-100",
+  "grid": [
+   757,
+   2758
+  ],
+  "valid": 1766370,
+  "default_self_prox_per1000": 1.57,
+  "default_pairs": 1415,
+  "winding_self_prox_per1000": 1.57,
+  "winding_pairs": 1415,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623161233-w101-103",
+  "grid": [
+   756,
+   2811
+  ],
+  "valid": 1797513,
+  "default_self_prox_per1000": 2.61,
+  "default_pairs": 2420,
+  "winding_self_prox_per1000": 0.4,
+  "winding_pairs": 361,
+  "winding_pairs_ignored": 2059
+ },
+ {
+  "seg": "PHercParis4__20260623161921-w104-106",
+  "grid": [
+   764,
+   2858
+  ],
+  "valid": 1829550,
+  "default_self_prox_per1000": 3.91,
+  "default_pairs": 3685,
+  "winding_self_prox_per1000": 0.28,
+  "winding_pairs": 259,
+  "winding_pairs_ignored": 3426
+ },
+ {
+  "seg": "PHercParis4__20260623162614-w107-109",
+  "grid": [
+   768,
+   2907
+  ],
+  "valid": 1870597,
+  "default_self_prox_per1000": 2.44,
+  "default_pairs": 2376,
+  "winding_self_prox_per1000": 1.25,
+  "winding_pairs": 1186,
+  "winding_pairs_ignored": 1190
+ },
+ {
+  "seg": "PHercParis4__20260623163339-w110-112",
+  "grid": [
+   769,
+   2952
+  ],
+  "valid": 1898430,
+  "default_self_prox_per1000": 2.15,
+  "default_pairs": 2131,
+  "winding_self_prox_per1000": 2.15,
+  "winding_pairs": 2131,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623164141-w113-115",
+  "grid": [
+   767,
+   3013
+  ],
+  "valid": 1923221,
+  "default_self_prox_per1000": 2.28,
+  "default_pairs": 2296,
+  "winding_self_prox_per1000": 2.28,
+  "winding_pairs": 2296,
+  "winding_pairs_ignored": 0
+ },
+ {
+  "seg": "PHercParis4__20260623164704-w116-117",
+  "grid": [
+   758,
+   2059
+  ],
+  "valid": 1299717,
+  "default_self_prox_per1000": 2.98,
+  "default_pairs": 1939,
+  "winding_self_prox_per1000": 0.33,
+  "winding_pairs": 212,
+  "winding_pairs_ignored": 1727
+ },
+ {
+  "seg": "PHercParis4__20260623165230-w118-119",
+  "grid": [
+   752,
+   2076
+  ],
+  "valid": 1310016,
+  "default_self_prox_per1000": 3.39,
+  "default_pairs": 2224,
+  "winding_self_prox_per1000": 0.14,
+  "winding_pairs": 94,
+  "winding_pairs_ignored": 2130
+ }
+]
