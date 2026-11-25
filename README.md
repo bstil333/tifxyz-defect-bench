@@ -2,7 +2,7 @@
 
 A labeled benchmark for tifxyz segment quality checkers. It plants defects with exact known positions in a clean segment, runs a checker on the clean and the defective copy, and reports per-defect recall, the false-alarm density on the clean copy, and a chance baseline.
 
-**Why.** The READMEs of tifxyz-doctor, tifxyz-repair and windcheck say that no labeled corpus exists to measure how often they catch real problems. This is a first one.
+**Why.** The READMEs of tifxyz-doctor, tifxyz-repair and windcheck say that no labeled corpus exists to measure how often they catch real problems. This benchmark is a synthetic one: every planted defect has an exact known position. It is complementary to natural data. For example, SwitchBench, posted by a community member in the Vesuvius Challenge Discord on September 30, 2026, is a set of 213 confirmed natural sheet switches on PHercParis4. We could not open its repository when we checked on November 25, 2026, so we have not run it.
 
 **Defects planted:** hole (a block of interior cells set invalid), sheet_jump (a block displaced along the local normal), normal_flip (a block's parameterization reversed), stretch (a block's in-plane spacing scaled).
 
