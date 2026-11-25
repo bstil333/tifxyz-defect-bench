@@ -1,0 +1,242 @@
+From 03c012f471ead48f710d2b2af130db9137783264 Mon Sep 17 00:00:00 2001
+From: "Benjamin L. Stilwell" <just.bstil@gmail.com>
+Date: Thu, 29 Oct 2026 18:45:18 -0500
+Subject: [PATCH 1/2] inspect: optional winding-aware self-proximity for
+ multi-wrap band surfaces
+
+On a band that winds several times, every cell has a neighbor on the adjacent turn of the same sheet
+a nearly constant grid offset away, so the self_proximity cue (grid-distant, 3D-close pairs) fires on the
+whole surface. With winding_aware=True (CLI: inspect --winding-aware) pairs are grouped by grid offset in
+log-scaled bins and a group holding at least winding_min_frac (default 0.5%) pairs per valid point is treated
+as winding clearance and dropped. Local sheet switches and mirrored folds have varying offsets and are kept.
+Default behavior is unchanged. Adds a test with a two-wrap band and a fold.
+---
+ src/tifxyz_repair/cli.py  | 10 +++++++-
+ src/tifxyz_repair/deep.py | 52 ++++++++++++++++++++++++++++++++++++++-
+ tests/test_repair.py      | 31 +++++++++++++++++++++++
+ 3 files changed, 91 insertions(+), 2 deletions(-)
+
+diff --git a/src/tifxyz_repair/cli.py b/src/tifxyz_repair/cli.py
+index c39bfb4..d678680 100644
+--- a/src/tifxyz_repair/cli.py
++++ b/src/tifxyz_repair/cli.py
+@@ -119,7 +119,9 @@ def cmd_inspect(args) -> int:
+         # One unreadable patch must never abort the rest of the batch.
+         try:
+             patch = load_patch(p)
+-            metrics = inspect_patch(patch, collect_cells=bool(args.export_pointset))
++            metrics = inspect_patch(
++                patch, collect_cells=bool(args.export_pointset), winding_aware=args.winding_aware
++            )
+         except Exception as e:  # noqa: BLE001
+             print(f"error: {p}: {type(e).__name__}: {e}", file=sys.stderr)
+             if exit_code == 0:
+@@ -189,6 +191,12 @@ def main(argv=None) -> int:
+     )
+     p_ins.add_argument("paths", nargs="+")
+     p_ins.add_argument("--png-dir", help="write per-patch defect-map PNGs into this directory")
++    p_ins.add_argument(
++        "--winding-aware",
++        action="store_true",
++        help="on multi-wrap band surfaces, ignore self-proximity pairs that are ordinary winding clearance "
++        "(a surface-wide, nearly constant grid offset between neighboring turns)",
++    )
+     p_ins.add_argument(
+         "--export-pointset",
+         metavar="OUT.json",
+diff --git a/src/tifxyz_repair/deep.py b/src/tifxyz_repair/deep.py
+index c45d252..448699c 100644
+--- a/src/tifxyz_repair/deep.py
++++ b/src/tifxyz_repair/deep.py
+@@ -39,11 +39,54 @@ def _expected_spacing(patch: Patch) -> Optional[float]:
+     return None
+ 
+ 
++def _winding_pairs(idx: np.ndarray, pairs: np.ndarray, n_points: int, min_frac: float, rel_width: float = 0.05) -> np.ndarray:
++    """Boolean mask over ``pairs``: True for pairs that are ordinary winding clearance.
++
++    On a multi-wrap band every cell sits next to the neighboring turn of the same sheet, so grid-distant,
++    3D-close pairs share one nearly constant grid offset (about one wrap period) over a large part of the
++    surface. A sheet switch or a merger is local, and a fold mirrors the surface, so its offsets vary from
++    pair to pair. Pairs are grouped by grid offset (log-scaled bins of ``rel_width``, offset sign removed,
++    each bin pooled with its 26 neighbors) and a group counts as winding clearance when it holds at least
++    ``min_frac`` pairs per valid point.
++    """
++    d = idx[pairs[:, 1]] - idx[pairs[:, 0]]
++    flip = (d[:, 1] < 0) | ((d[:, 1] == 0) & (d[:, 0] < 0))
++    d = np.where(flip[:, None], -d, d)
++    mag = np.maximum(np.abs(d).max(axis=1), 1).astype(float)
++    k_mag = np.round(np.log(mag) / np.log1p(rel_width)).astype(np.int64)
++    width = np.maximum(1.0, rel_width * mag)
++    k_row = np.round(d[:, 0] / width).astype(np.int64)
++    k_col = np.round(d[:, 1] / width).astype(np.int64)
++    # a bin is identified by (magnitude bin, row bin, col bin); pool with the neighboring magnitude bins
++    keys, inv = np.unique(np.stack([k_mag, k_row, k_col], axis=1), axis=0, return_inverse=True)
++    inv = inv.ravel()
++    counts = np.bincount(inv, minlength=len(keys)).astype(np.int64)
++    pooled = counts.copy()
++    lookup = {tuple(k): i for i, k in enumerate(keys.tolist())}
++    for i, (m, r, c) in enumerate(keys.tolist()):
++        for dm in (-1, 0, 1):
++            for dr in (-1, 0, 1):
++                for dc in (-1, 0, 1):
++                    j = lookup.get((m + dm, r + dr, c + dc))
++                    if j is not None and j != i:
++                        pooled[i] += counts[j]
++    return pooled[inv] >= min_frac * n_points
++
++
+ def inspect_patch(
+-    patch: Patch, *, proximity_factor: float = 0.5, uv_min_dist: int = 10, collect_cells: bool = False
++    patch: Patch,
++    *,
++    proximity_factor: float = 0.5,
++    uv_min_dist: int = 10,
++    collect_cells: bool = False,
++    winding_aware: bool = False,
++    winding_min_frac: float = 0.005,
+ ) -> dict[str, Any]:
+     """Compute deep geometry metrics. Returns a JSON-serializable dict.
+ 
++    With ``winding_aware=True`` the self-proximity cue ignores pairs that are ordinary winding clearance on a
++    multi-wrap band (see :func:`_winding_pairs`); the default keeps the original behavior.
++
+     With ``collect_cells=True`` the result additionally carries a
+     ``defect_cells`` key: ``{defect_type: [[row, col], ...]}`` grid cells
+     pinpointing each finding (used by the VC3D pointset export below).
+@@ -131,6 +174,11 @@ def inspect_patch(
+         suspects = pairs[uv_dist > uv_min_dist]
+     else:
+         suspects = np.empty((0, 2), dtype=int)
++    winding = 0
++    if winding_aware and len(suspects):
++        wmask = _winding_pairs(idx, suspects, len(pts), winding_min_frac)
++        winding = int(wmask.sum())
++        suspects = suspects[~wmask]
+     sus_cells = np.unique(idx[suspects.ravel()], axis=0) if suspects.size else np.empty((0, 2), dtype=int)
+     result["self_proximity"] = {
+         "pairs": int(len(suspects)),
+@@ -138,6 +186,8 @@ def inspect_patch(
+         "radius_voxels": float(expected * proximity_factor),
+         "note": "grid-distant vertex pairs closer than radius in 3D (sheet-switch/merger suspects)",
+     }
++    if winding_aware:
++        result["self_proximity"]["winding_pairs_ignored"] = winding
+     if collect_cells:
+         defect_cells["self_proximity"] = sus_cells
+ 
+diff --git a/tests/test_repair.py b/tests/test_repair.py
+index b9168c4..67cf265 100644
+--- a/tests/test_repair.py
++++ b/tests/test_repair.py
+@@ -375,6 +375,37 @@ class TestDeep:
+         m = inspect_patch(load_patch(d))
+         assert m["self_proximity"]["pairs"] > 0
+ 
++    def test_winding_aware_ignores_band_clearance_but_keeps_fold(self, tmp_path):
++        pytest.importorskip("scipy")
++        from tifxyz_repair.deep import inspect_patch
++
++        # A band that winds twice: columns c and c+P (one wrap period) sit 5 voxels apart in 3D, everywhere.
++        # That is ordinary winding clearance, not a sheet switch.
++        rows, cols, period = 20, 200, 100
++        d = make_patch(tmp_path / "band", shape=(rows, cols))
++        x = tifffile.imread(d / "x.tif").astype(np.float64)
++        y = tifffile.imread(d / "y.tif").astype(np.float64)
++        z = tifffile.imread(d / "z.tif").astype(np.float64)
++        ang = 2 * np.pi * (np.arange(cols) % period) / period
++        radius = 300.0 + 5.0 * (np.arange(cols) // period)
++        x[:] = (radius * np.cos(ang))[None, :]
++        y[:] = (radius * np.sin(ang))[None, :]
++        z[:] = (np.arange(rows) * 20.0)[:, None]
++        for name, a in (("x", x), ("y", y), ("z", z)):
++            tifffile.imwrite(d / f"{name}.tif", a.astype(np.float32))
++        plain = inspect_patch(load_patch(d))["self_proximity"]
++        aware = inspect_patch(load_patch(d), winding_aware=True)["self_proximity"]
++        assert plain["pairs"] > 0
++        assert aware["pairs"] == 0 and aware["winding_pairs_ignored"] == plain["pairs"]
++
++        # A fold of a long patch is local and mirrors the surface, so the option must still report it.
++        f = make_patch(tmp_path / "fold", shape=(20, 400))
++        fx = tifffile.imread(f / "x.tif")
++        fx[:, 200:] = fx[:, 199::-1]
++        tifffile.imwrite(f / "x.tif", fx.astype(np.float32))
++        kept = inspect_patch(load_patch(f), winding_aware=True)["self_proximity"]
++        assert kept["pairs"] > 0
++
+ 
+ def make_defective_patch(tmp: Path) -> Path:
+     """Synthetic patch with all three exportable defect families: a sheet
+-- 
+2.53.0
+
+
+From 4a6ff3c809b34357b2b77b986f6fa2d41ae3262a Mon Sep 17 00:00:00 2001
+From: "Benjamin L. Stilwell" <just.bstil@gmail.com>
+Date: Thu, 29 Oct 2026 19:21:39 -0500
+Subject: [PATCH 2/2] winding-aware self-proximity: scale the pair-density
+ requirement by the sampling stride
+
+On grids above 400,000 valid cells inspect_patch subsamples every stride-th point, which divides the pair density
+per sampled point by stride, so the fixed winding_min_frac could never be reached on large bands. The requirement
+is now divided by the stride (unchanged when stride is 1). Found by validating on 24 multi-wrap PHercParis4 bands:
+mean self-proximity flags 2.10 -> 0.14 per 1,000 cells.
+---
+ src/tifxyz_repair/deep.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/src/tifxyz_repair/deep.py b/src/tifxyz_repair/deep.py
+index 448699c..070afde 100644
+--- a/src/tifxyz_repair/deep.py
++++ b/src/tifxyz_repair/deep.py
+@@ -39,7 +39,9 @@ def _expected_spacing(patch: Patch) -> Optional[float]:
+     return None
+ 
+ 
+-def _winding_pairs(idx: np.ndarray, pairs: np.ndarray, n_points: int, min_frac: float, rel_width: float = 0.05) -> np.ndarray:
++def _winding_pairs(
++    idx: np.ndarray, pairs: np.ndarray, n_points: int, min_frac: float, rel_width: float = 0.05, stride: int = 1
++) -> np.ndarray:
+     """Boolean mask over ``pairs``: True for pairs that are ordinary winding clearance.
+ 
+     On a multi-wrap band every cell sits next to the neighboring turn of the same sheet, so grid-distant,
+@@ -47,7 +49,9 @@ def _winding_pairs(idx: np.ndarray, pairs: np.ndarray, n_points: int, min_frac:
+     surface. A sheet switch or a merger is local, and a fold mirrors the surface, so its offsets vary from
+     pair to pair. Pairs are grouped by grid offset (log-scaled bins of ``rel_width``, offset sign removed,
+     each bin pooled with its 26 neighbors) and a group counts as winding clearance when it holds at least
+-    ``min_frac`` pairs per valid point.
++    ``min_frac`` pairs per valid point. When the grid was subsampled by ``stride`` to bound the KD-tree, both
++    ends of a pair survive with probability 1/stride**2, so the pair density per sampled point falls by 1/stride and
++    the requirement is scaled by the same factor.
+     """
+     d = idx[pairs[:, 1]] - idx[pairs[:, 0]]
+     flip = (d[:, 1] < 0) | ((d[:, 1] == 0) & (d[:, 0] < 0))
+@@ -70,7 +74,7 @@ def _winding_pairs(idx: np.ndarray, pairs: np.ndarray, n_points: int, min_frac:
+                     j = lookup.get((m + dm, r + dr, c + dc))
+                     if j is not None and j != i:
+                         pooled[i] += counts[j]
+-    return pooled[inv] >= min_frac * n_points
++    return pooled[inv] >= min_frac * n_points / max(1, stride)
+ 
+ 
+ def inspect_patch(
+@@ -164,6 +168,7 @@ def inspect_patch(
+     pts = P[V]
+     # Subsample very large grids to keep the KD-tree pass fast.
+     max_pts = 400_000
++    stride = 1
+     if pts.shape[0] > max_pts:
+         stride = int(np.ceil(pts.shape[0] / max_pts))
+         pts, idx = pts[::stride], idx[::stride]
+@@ -176,7 +181,7 @@ def inspect_patch(
+         suspects = np.empty((0, 2), dtype=int)
+     winding = 0
+     if winding_aware and len(suspects):
+-        wmask = _winding_pairs(idx, suspects, len(pts), winding_min_frac)
++        wmask = _winding_pairs(idx, suspects, len(pts), winding_min_frac, stride=stride)
+         winding = int(wmask.sum())
+         suspects = suspects[~wmask]
+     sus_cells = np.unique(idx[suspects.ravel()], axis=0) if suspects.size else np.empty((0, 2), dtype=int)
+-- 
+2.53.0
+
